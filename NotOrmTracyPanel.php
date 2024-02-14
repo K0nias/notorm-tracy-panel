@@ -1,9 +1,9 @@
 <?php
+use Nette\Diagnostics\Debugger;
 use Nette\Utils\Strings;
-use Tracy\IBarPanel;
-use Tracy\Debugger;
+use Nette\Diagnostics\IBarPanel;
 
-class NotOrmTracyPanel implements IBarPanel {
+class NotOrmTracyPanel implements \Nette\Diagnostics\IBarPanel {
 	/** @var int */
 	static public $maxQueries = 200;
 
@@ -40,7 +40,7 @@ class NotOrmTracyPanel implements IBarPanel {
 	public static function simpleInit(\NotORM $notorm, PDO $pdo = null) {
 		$self = self::getInstance();
 		$self->setNotOrm($notorm);
-		
+
 		if ($pdo) {
 			$self->setPdo($pdo);
 		}
@@ -54,9 +54,11 @@ class NotOrmTracyPanel implements IBarPanel {
 			$self->stopQueryTimer($self->getIndex());
 		};
 
-		$self->setPlatform($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
+		if ($pdo) {
+			$self->setPlatform($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
+		}
 
-		Debugger::getBar()->addPanel($self);
+		Debugger::$bar->addPanel($self);
 	}
 
 	public function setNotOrm(\NotORM $notorm) {
