@@ -17,7 +17,8 @@
   ],
   "require": {
     "php": ">=5.3.0",
-    "nette/nette": "2.0.*"
+    "nette/utils": "2.1.*",
+    "tracy/tracy": "2.1.*"
   },
   "autoload": {
     "classmap": ["NotOrmTracyPanel.php"]
